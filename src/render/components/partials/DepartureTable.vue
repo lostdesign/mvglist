@@ -1,8 +1,8 @@
 <template lang="pug">
 .content
   h5 {{station.name}}
-  table 
-    template(v-for="d in departures") 
+  table
+    template(v-for="d in departures")
       tr
         td {{d.label}}
         td {{d.destination}}
@@ -14,6 +14,7 @@
 import { setTimeout } from 'timers';
 import { log } from 'util';
 const mvg = require('mvg-node');
+
 export default {
   data(){
     return {
@@ -39,20 +40,23 @@ export default {
     async getStationDepature(){
       let home = await mvg.getStation(this.station.name).catch((err)=>{console.log(err)});
 
-      let departures = 
+      let departures =
         await mvg.getDepartures(home)
         .then(res => {
           let result = res.filter(d => d.destination == this.station.to);
           this.departures = result;
         });
-    },
-    async getRoutes(){
-      let route = await mvg.getRoute('Paul-Henri-Spaak-Strasse', 'Hallbergmoos').then(res=>console.log(res));
+
+      // let stations =
+      // await mvg.allStations()
+      // .then(res => {
+      //     let result = res.locations.filter(d => d.name == "Pulling");
+      //    console.log(result);
+      // });
     }
   },
   created() {
     this.getStationDepature();
-    this.getRoutes();
   },
   mounted(){
     setInterval(() => this.getStationDepature('interval'), 60 * 1000)
