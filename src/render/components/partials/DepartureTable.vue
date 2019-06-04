@@ -46,9 +46,13 @@ export default {
           this.departures = result;
         });
     },
+    async getRoutes(){
+      let route = await mvg.getRoute('Paul-Henri-Spaak-Strasse', 'Hallbergmoos').then(res=>console.log(res));
+    }
   },
   created() {
     this.getStationDepature();
+    this.getRoutes();
   },
   mounted(){
     setInterval(() => this.getStationDepature('interval'), 60 * 1000)

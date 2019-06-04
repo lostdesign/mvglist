@@ -5,11 +5,14 @@
   .monitors
     template(v-for="station in stationWatchers")
       DepartureTable(:station="station")
+  template(v-for="station in stationWatchers")
+    RoutesTable(:station="station")
 
 </template>
 
 <script>
 import DepartureTable from './partials/DepartureTable.vue';
+import RoutesTable from './partials/RoutesTable.vue';
 export default {
   data(){
     return {
@@ -34,7 +37,8 @@ export default {
     }
   },
   components: {
-    DepartureTable
+    DepartureTable,
+    RoutesTable
   }
 }
 </script>
