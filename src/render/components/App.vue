@@ -1,5 +1,5 @@
 <template lang="pug">
-main
+.content
   nav
     .drag(style="-webkit-app-region: drag;")
     button(@click="changeWindow('max')") FULL
@@ -7,7 +7,8 @@ main
     button(@click="changeWindow('close')") x
   router-link(to="/") App
   router-link(to="/settings") settings
-  router-view
+  main
+    router-view
 </template>
 
 <script>

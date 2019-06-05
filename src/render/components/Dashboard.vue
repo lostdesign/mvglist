@@ -1,8 +1,7 @@
 <template lang="pug">
 div
-  section.routes
-    template(v-for="route in routes")
-      RoutesTable(:route="route" )
+  template(v-for="route in routes")
+    RoutesTable(:route="route" )
   section.departures
     template(v-for="station in stationWatchers")
       DepartureTable(:station="station")

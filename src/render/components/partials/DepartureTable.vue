@@ -2,7 +2,7 @@
 .departure
   h5 {{station.name}} 
   table
-    template(v-for="d in departures")
+    template(v-for="(d, index) in departures" v-if="departures && departures.length > 0 && index <= limitationList")
       tr
         td {{d.time | formatTime}}
         td {{d.time | calcTime}} min
@@ -19,7 +19,8 @@ const mvg = require('mvg-node');
 export default {
   data(){
     return {
-      departures:[]
+      departures:[],
+      limitationList: 10
     }
   },
   props: [
@@ -32,16 +33,8 @@ export default {
       let departures =
         await mvg.getDepartures(home)
         .then(res => {
-          //let result = res.filter(d => d.destination == this.station.to);
           this.departures = res;
         });
-
-      // let stations =
-      // await mvg.allStations()
-      // .then(res => {
-      //     let result = res.locations.filter(d => d.name == "Pulling");
-      //    console.log(result);
-      // });
     }
   },
   created() {
