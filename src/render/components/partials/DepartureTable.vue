@@ -1,13 +1,14 @@
 <template lang="pug">
-.content
-  h5 {{station.name}}
+.departure
+  h5 {{station.name}} 
   table
     template(v-for="d in departures")
       tr
+        td {{d.time | formatTime}}
+        td {{d.time | calcTime}} min
         td {{d.label}}
         td {{d.destination}}
-        td {{d.time | calcTime}}
-        td {{d.time | formatTime}}
+
 </template>
 
 <script>
@@ -24,18 +25,6 @@ export default {
   props: [
     'station'
   ],
-  filters: {
-    calcTime(depTime) {
-      let now = Date.now();
-      let diff = depTime - now;
-      depTime = Math.floor(diff/1000/60);
-      return depTime;
-    },
-    formatTime(time){
-      var d = new Date(time);
-      return d.toLocaleTimeString();
-    }
-  },
   methods: {
     async getStationDepature(){
       let home = await mvg.getStation(this.station.name).catch((err)=>{console.log(err)});
@@ -43,8 +32,8 @@ export default {
       let departures =
         await mvg.getDepartures(home)
         .then(res => {
-          let result = res.filter(d => d.destination == this.station.to);
-          this.departures = result;
+          //let result = res.filter(d => d.destination == this.station.to);
+          this.departures = res;
         });
 
       // let stations =

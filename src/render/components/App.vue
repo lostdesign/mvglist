@@ -1,56 +1,75 @@
 <template lang="pug">
-.wrapper
-  .header
-    h1 Abfahrtsmonitor
-  .monitors
-    template(v-for="station in stationWatchers")
-      DepartureTable(:station="station")
-  template(v-for="station in stationWatchers")
-    RoutesTable(:station="station")
-
+main
+  nav
+    .drag(style="-webkit-app-region: drag;")
+    button(@click="changeWindow('max')") FULL
+    button(@click="changeWindow('min')") -
+    button(@click="changeWindow('close')") x
+  router-link(to="/") App
+  router-link(to="/settings") settings
+  router-view
 </template>
 
 <script>
-import DepartureTable from './partials/DepartureTable.vue';
-import RoutesTable from './partials/RoutesTable.vue';
 export default {
-  data(){
-    return {
-      stationWatchers: [
-        {
-          name: 'Paul-Henri-Spaak-Strasse',
-          to: 'Arabellapark'
-        },
-        {
-          name: 'Daglfing',
-          to: 'München Flughafen Terminal'
-        },
-        {
-          name: 'Hallbergmoos',
-          to: 'Herrsching'
-        },
-        {
-          name: 'Daglfing Ost',
-          to: 'Messestadt West'
-        },
-      ]
+  name: 'App',
+  created() {
+    this.$store.dispatch('initialLoad')
+  },
+  methods: {
+    changeWindow(state){
+      let appWindow = remote.getCurrentWindow()
+      switch(state){
+        case 'close': 
+          appWindow.close();
+          break;
+        case 'min':
+          appWindow.minimize();
+          break;
+        case 'max':
+          appWindow.maximize();
+          break;
+        default: 
+          break;
+      }
+      
     }
   },
-  components: {
-    DepartureTable,
-    RoutesTable
-  }
 }
 </script>
 
+
 <style lang="scss" scoped>
-.header {
-  background: rgb(10, 166, 194);
-  padding: 10px;
-  color: #fff;
-}
-.monitors {
+nav {
+  height: 20px; 
+  background-color:green;
   display:flex;
-  flex-direction: row;
+
+  .drag {
+    background-color: red;
+    width: 100%;
+  }
 }
+</style>
+
+<style lang="scss">
+::-webkit {
+  &-scrollbar{
+    width: 10px;
+    height: 10px;
+
+    &-thumb{
+      background: #aaa;
+    }
+    
+    &-track{
+      background:#eee;
+    }
+  }
+  &-resizer,
+  &-scrollbar-corner {
+    background: #eee;
+  }
+}
+
 </style>
