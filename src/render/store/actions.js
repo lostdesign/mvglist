@@ -38,6 +38,15 @@ async function getStationWatchers(commit) {
   }
 }
 
+async function addStationWatch(commit, station) {
+  try {
+    let stationWatchers = await db.stationWatchers.put({name: station.name, to: station.to})
+    commit('setStationWatchers', stationWatchers)
+  } catch (err) {
+    console.error("Couldn't load stationWatchers", err)
+  }
+}
+
 async function deleteStationWatcherById(commit,id) {
   try {
     let stationWatcher = await db.stationWatchers.where({'id':id}).delete()
@@ -57,6 +66,9 @@ export default {
   },
   deleteRoute: ({commit}, id) => {
     deleteRouteById(commit, id)
+  },
+  addNewStationWatch: ({commit}, station) => {
+    addStationWatch(commit, station)
   },
   initialLoad: ({ commit }) => {
     getSettings(commit)
