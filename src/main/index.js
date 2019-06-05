@@ -10,6 +10,8 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
+    minHeight: 300,
+    minWidth: 300,
     webPreferences: {
       nodeIntegration: true,
       nativeWindowOpen: true
@@ -31,7 +33,6 @@ function createWindow () {
     mainWindow = null
   })
   mainWindow.webContents.openDevTools();
-  mainWindow.setAlwaysOnTop(true, 'floating'); 
 }
 
 // This method will be called when Electron has finished
@@ -54,3 +55,6 @@ app.on('activate', function () {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+
+// Activate notifications
+app.setAppUserModelId(process.execPath)

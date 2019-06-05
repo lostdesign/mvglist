@@ -12,10 +12,13 @@
     "watch": "parcel watch src/render/index.pug --target electron --public-url ./"
   },
   "dependencies": {
+    "dexie": "^2.0.4",
     "electron": "^5.0.2",
     "mvg-node": "^1.2.1",
     "vue": "^2.6.10",
-    "vue-hot-reload-api": "^2.3.3"
+    "vue-hot-reload-api": "^2.3.3",
+    "vue-router": "^3.0.6",
+    "vuex": "^3.1.1"
   },
   "devDependencies": {
     "@vue/component-compiler-utils": "^3.0.0",
