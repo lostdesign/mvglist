@@ -1,7 +1,8 @@
 <template lang="pug">
 section.routes
   RouteCard(:route="routesOut" :from="route.from" :to="route.to")
-  RouteCard(:route="routesIn" :from="route.to" :to="route.from")
+  template(v-if="route.onway")
+    RouteCard(:route="routesIn" :from="route.to" :to="route.from")
 </template>
 
 <script>

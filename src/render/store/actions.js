@@ -19,6 +19,15 @@ async function getRoutes(commit) {
   }
 }
 
+async function addRoute(commit, route) {
+  try {
+    let newRoute = await db.routes.put({from: route.from, to: route.to})
+    getRoutes(commit)
+  } catch (err) {
+    console.error("Couldn't load newRoute", err)
+  }
+}
+
 async function deleteRouteById(commit,id) {
   try {
     let route = await db.routes.where({'id':id}).delete()
@@ -41,7 +50,7 @@ async function getStationWatchers(commit) {
 async function addStationWatch(commit, station) {
   try {
     let stationWatchers = await db.stationWatchers.put({name: station.name, to: station.to})
-    commit('setStationWatchers', stationWatchers)
+    getStationWatchers(commit)
   } catch (err) {
     console.error("Couldn't load stationWatchers", err)
   }
@@ -69,6 +78,9 @@ export default {
   },
   addNewStationWatch: ({commit}, station) => {
     addStationWatch(commit, station)
+  },
+  addNewRoute: ({commit}, route) => {
+    addRoute(commit, route)
   },
   initialLoad: ({ commit }) => {
     getSettings(commit)

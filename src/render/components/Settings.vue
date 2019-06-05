@@ -1,9 +1,15 @@
 <template lang="pug">
 div
-  form
+  form(v-on:submit.prevent="addNewStation")
     input(placeholder="add new station to watch" v-model="newStation.name")
     //input(placeholder="add new station direction" v-model="newStation.to")
-    button(@click="addNewStation") save
+    button(type="submit") saves
+  form(v-on:submit.prevent="addNewRoute")
+    input(placeholder="add new start" v-model="newRoute.from")
+    input(placeholder="add new stop" v-model="newRoute.to")
+    input(type="checkbox" id="checkbox" v-model="newRoute.onway") 
+    p Back and forth?
+    button(type="submit") saves
   hr
   h1 Station watchers
   template(v-for="station in activeStationWatchers")
@@ -22,15 +28,21 @@ export default {
   name: 'Settings',
   data(){
     return {
-      newStation:{}
+      newStation:{},
+      newRoute: {}
     }
   },
   methods: {
     addNewStation(){
       this.$store.dispatch('addNewStationWatch', this.newStation)
+      this.newStation = {}
     },
     deleteStation(id){
       this.$store.dispatch('deleteStationWatch', id)
+    },
+    addNewRoute(){
+      this.$store.dispatch('addNewRoute', this.newRoute)
+      this.newRoute = {}
     },
     deleteRoute(id){
       this.$store.dispatch('deleteRoute', id)

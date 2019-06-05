@@ -1,12 +1,13 @@
 <template lang="pug">
 .content
   nav
+    router-link(to="/") App
+    router-link(to="/settings") settings
     .drag(style="-webkit-app-region: drag;")
     button(@click="changeWindow('max')") FULL
     button(@click="changeWindow('min')") -
     button(@click="changeWindow('close')") x
-  router-link(to="/") App
-  router-link(to="/settings") settings
+    
   main
     router-view
 </template>
@@ -42,14 +43,23 @@ export default {
 
 <style lang="scss" scoped>
 nav {
-  height: 20px; 
-  background-color:green;
   display:flex;
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  background: #eee;
+
+  a {
+    padding: 5px 10px;
+  }
 
   .drag {
-    background-color: red;
     width: 100%;
   }
+}
+main {
+  margin-top:30px;
 }
 </style>
 
