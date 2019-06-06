@@ -58,3 +58,9 @@ app.on('activate', function () {
 
 // Activate notifications
 app.setAppUserModelId(process.execPath)
+
+// if (process.env.NODE_ENV !=== 'production') { // change !== to ===
+//   require('vue-devtools').uninstall()
+// } else {
+//   require('vue-devtools').install()
+// }
