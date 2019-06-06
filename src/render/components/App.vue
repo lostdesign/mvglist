@@ -7,12 +7,13 @@
     button(@click="changeWindow('max')") FULL
     button(@click="changeWindow('min')") -
     button(@click="changeWindow('close')") x
-    
+
   main
     router-view
 </template>
 
 <script>
+const remote = require('electron').remote
 export default {
   name: 'App',
   created() {
@@ -22,7 +23,7 @@ export default {
     changeWindow(state){
       let appWindow = remote.getCurrentWindow()
       switch(state){
-        case 'close': 
+        case 'close':
           appWindow.close();
           break;
         case 'min':
@@ -31,10 +32,10 @@ export default {
         case 'max':
           appWindow.maximize();
           break;
-        default: 
+        default:
           break;
       }
-      
+
     }
   },
 }
@@ -72,7 +73,7 @@ main {
     &-thumb{
       background: #aaa;
     }
-    
+
     &-track{
       background:#eee;
     }
