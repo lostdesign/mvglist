@@ -9,8 +9,6 @@
           li(v-if="connection.destination") {{connection.departure | formatTime}} {{connection.label}} {{connection.from.name}}  {{connection.departurePlatform}}
         li
           time {{r.arrival | formatTime }}  {{to}}
-    //button(@click="nextRoute()") next trip
-    //button(@click="showAll()") show all
 </template>
 
 <script>
@@ -22,12 +20,6 @@ export default {
     }
   },
   methods: {
-    nextRoute(){
-      const moveRouteElem = this.route.shift();
-      this.route.push(moveRouteElem);
-    },
-    showAll(){
-    }
   }
 }
 </script>

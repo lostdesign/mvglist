@@ -7,7 +7,6 @@
     button(@click="changeWindow('max')") FULL
     button(@click="changeWindow('min')") -
     button(@click="changeWindow('close')") x
-
   main
     router-view
 </template>
@@ -35,7 +34,6 @@ export default {
         default:
           break;
       }
-
     }
   },
 }

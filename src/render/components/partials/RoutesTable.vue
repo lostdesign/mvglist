@@ -1,8 +1,7 @@
 <template lang="pug">
 section.routes
   RouteCard(:route="routesOut" :from="route.from" :to="route.to")
-  template(v-if="route.onway")
-    RouteCard(:route="routesIn" :from="route.to" :to="route.from")
+  RouteCard(:route="routesIn" :from="route.to" :to="route.from")
 </template>
 
 <script>
@@ -19,10 +18,22 @@ export default {
   props: ['route'],
   methods: {
     async getRoutesOut(){
-      let routesOut = await mvg.getRoute(this.route.from, this.route.to).then(res=>this.routesOut = res);
+      let routesOut = 
+        await mvg.getRoute(this.route.to, this.route.from)
+        .then(res => { 
+          this.routesOut = res;
+          console.log(res);
+        })
+        .catch(err => console.log(err));
     },
     async getRoutesIn(){
-      let routesIn = await mvg.getRoute(this.route.to,this.route.from).then(res=>this.routesIn = res);
+      let routesIn = 
+        await mvg.getRoute(this.route.to, this.route.from)
+        .then(res => { 
+          this.routesIn = res;
+          console.log(res);
+        })
+        .catch(err => console.log(err));
     },
   },
   created() {
@@ -30,8 +41,8 @@ export default {
     this.getRoutesIn();
   },
   mounted(){
-    setInterval(() => this.getRoutesOut('interval'), 60 * 1000 * 10);
-    setInterval(() => this.getRoutesIn('interval'), 60 * 1000 * 10);
+    setInterval(() => this.getRoutesOut('interval'), 60 * 1000);
+    setInterval(() => this.getRoutesIn('interval'), 60 * 1000);
   },
   components: {
     RouteCard
