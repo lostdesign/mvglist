@@ -1,6 +1,6 @@
 <template lang="pug">
 .departure
-  h5 {{station.name}} 
+  h5 {{station.name}}
   table
     template(v-for="(d, index) in departures" v-if="departures && departures.length > 0 && index <= limitationList")
       tr
@@ -8,7 +8,6 @@
         td {{d.time | calcTime}} min
         td {{d.label}}
         td {{d.destination}}
-
 </template>
 
 <script>
