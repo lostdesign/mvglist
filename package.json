@@ -12,9 +12,12 @@
     "watch": "parcel watch src/render/index.pug --target electron --public-url ./"
   },
   "dependencies": {
+    "@lynbarry/mvg-api": "^3.1.0",
     "dexie": "^2.0.4",
     "electron": "^5.0.2",
     "mvg-node": "^1.2.1",
+    "postcss-import": "^12.0.1",
+    "tailwindcss": "^1.1.4",
     "vue": "^2.6.10",
     "vue-hot-reload-api": "^2.3.3",
     "vue-router": "^3.0.6",
@@ -34,6 +37,13 @@
     "watcherGlob": "**"
   },
   "alias": {
-    "components/*": "src/render/components"
+    "components/*": "src/render/components",
+    "assets/*": "src/render/assets"
+  },
+  "postcss": {
+    "plugins": {
+      "tailwindcss": "./tailwind.js",
+      "autoprefixer": {}
+    }
   }
 }

@@ -4,11 +4,11 @@
     router-link(to="/") App
     router-link(to="/settings") settings
     .drag(style="-webkit-app-region: drag;")
-    button(@click="changeWindow('max')") FULL
-    button(@click="changeWindow('min')") -
-    button(@click="changeWindow('close')") x
+    button.full(@click="changeWindow('max')") +
+    button.min(@click="changeWindow('min')") -
+    button.close(@click="changeWindow('close')") x
   main
-    router-view
+    router-view.container.mx-auto.px-4
 </template>
 
 <script>
@@ -79,6 +79,23 @@ main {
   &-resizer,
   &-scrollbar-corner {
     background: #eee;
+  }
+}
+
+button {
+  @apply font-bold m-1;
+  width: 2rem;
+
+  &.full {
+    @apply bg-green-500 text-white;
+  }
+
+  &.min {
+    @apply bg-orange-500 text-white;
+  }
+
+  &.close {
+    @apply bg-red-500 text-white;
   }
 }
 

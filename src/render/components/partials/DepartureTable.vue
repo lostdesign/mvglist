@@ -4,16 +4,14 @@
   table
     template(v-for="(d, index) in departures" v-if="departures && departures.length > 0 && index <= limitationList")
       tr
-        td {{d.time | formatTime}}
-        td {{d.time | calcTime}} min
-        td {{d.label}}
-        td {{d.destination}}
+        td {{ d.lineDepartureIn }}
+        td {{ d.lineType | convertLineType }} {{ d.lineNumber }}
+        td {{ d.lineDestination }}
 </template>
 
 <script>
-import { setTimeout } from 'timers';
-import { log } from 'util';
 const mvg = require('mvg-node');
+const mvgApi = require('@lynbarry/mvg-api');
 
 export default {
   data(){
@@ -26,21 +24,27 @@ export default {
     'station'
   ],
   methods: {
-    async getStationDepature(){
-      let home = await mvg.getStation(this.station.name).catch((err)=>{console.log(err)});
+    async getNewStationDeparture(){
+      mvgApi.getDepartures(this.station.name, ['u', 's', 'b', 't']).then(lines => {
+        this.departures = lines;
+      });
+    },
+    // DEPRECATED; API OF MVG-NODE BROKE @17.10.2019
+    // async getStationDepature(){
+    //   let home = await mvg.getStation(this.station.name).catch((err)=>{console.log(err)});
 
-      let departures =
-        await mvg.getDepartures(home)
-        .then(res => {
-          this.departures = res;
-        });
-    }
+    //   let departures =
+    //     await mvg.getDepartures(home)
+    //     .then(res => {
+    //       this.departures = res;
+    //     });
+    // }
   },
   created() {
-    this.getStationDepature();
+    this.getNewStationDeparture();
   },
   mounted(){
-    setInterval(() => this.getStationDepature('interval'), 60 * 1000)
+    setInterval(() => this.getNewStationDeparture('interval'), 60 * 1000)
   }
 }
 </script>
