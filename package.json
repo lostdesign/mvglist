@@ -1,5 +1,7 @@
 {
   "name": "mvglist",
+  "description": "MVG Monitor",
+  "author": "lost.design",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -9,12 +11,13 @@
     "build:main": "parcel build src/main/index.js --target node",
     "build:render": "parcel build src/render/index.pug --target electron --public-url ./ --no-content-hash=true",
     "dev": "yarn build:main && yarn watch",
-    "watch": "parcel watch src/render/index.pug --target electron --public-url ./"
+    "watch": "parcel watch src/render/index.pug --target electron --public-url ./",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
   "dependencies": {
     "@lynbarry/mvg-api": "^3.1.0",
     "dexie": "^2.0.4",
-    "electron": "^5.0.2",
     "mvg-node": "^1.2.1",
     "postcss-import": "^12.0.1",
     "tailwindcss": "^1.1.4",
@@ -24,7 +27,9 @@
     "vuex": "^3.1.1"
   },
   "devDependencies": {
+    "electron": "^5.0.2",
     "@vue/component-compiler-utils": "^3.0.0",
+    "electron-builder": "^21.2.0",
     "parcel": "^1.12.3",
     "parcel-plugin-static-files-copy": "^2.1.1",
     "pug": "^2.0.3",
@@ -44,6 +49,16 @@
     "plugins": {
       "tailwindcss": "./tailwind.js",
       "autoprefixer": {}
+    }
+  },
+  "build": {
+    "appId": "design.lost.mvgapp",
+    "directories": {
+      "buildResources": "./dist/",
+      "output": "./build/"
+    },
+    "mac": {
+      "category": "your.app.category.type"
     }
   }
 }
