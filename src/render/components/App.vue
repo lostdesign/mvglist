@@ -1,14 +1,14 @@
 <template lang="pug">
 .content
   nav
-    router-link(to="/") App
-    router-link(to="/settings") settings
+    router-link(to="/") Dashboard
+    router-link(to="/settings") Settings
     .drag(style="-webkit-app-region: drag;")
     button.full(@click="changeWindow('max')") +
     button.min(@click="changeWindow('min')") -
     button.close(@click="changeWindow('close')") x
   main
-    router-view.container.mx-auto.px-4
+    router-view.mx-auto.px-4
 </template>
 
 <script>
@@ -47,7 +47,8 @@ nav {
   top:0;
   left:0;
   width:100%;
-  background: #eee;
+  background: #212121;
+  color: white;
 
   a {
     padding: 5px 10px;
@@ -59,6 +60,10 @@ nav {
 }
 main {
   margin-top:30px;
+}
+
+.router-link-exact-active {
+  color: lightcoral;
 }
 </style>
 
@@ -87,15 +92,15 @@ button {
   width: 2rem;
 
   &.full {
-    @apply bg-green-500 text-white;
+    //
   }
 
   &.min {
-    @apply bg-orange-500 text-white;
+    //
   }
 
   &.close {
-    @apply bg-red-500 text-white;
+    //
   }
 }
 

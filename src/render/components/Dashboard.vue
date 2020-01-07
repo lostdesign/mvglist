@@ -4,7 +4,7 @@ div
     RoutesTable(:route="route" )
   section.departures
     template(v-for="station in stationWatchers")
-      DepartureTable(:station="station")
+      DepartureTable(:station="station").mt-5
   
 </template>
 

@@ -1,9 +1,9 @@
 <template lang="pug">
 div
-  form(v-on:submit.prevent="addNewStation")
-    input(placeholder="add new station to watch" v-model="newStation.name")
+  form.flex.mt-10(v-on:submit.prevent="addNewStation")
+    input.mt-5.mr-1.border.border-gray-900.text-sm(placeholder="New Station" v-model="newStation.name")
     //input(placeholder="add new station direction" v-model="newStation.to")
-    button(type="submit") saves
+    button.mt-5.border.border-gray-900.text-xs(type="submit") Save
   //- DEPRECATED SINCE MVG-NODE BROKE
   //- form(v-on:submit.prevent="addNewRoute")
   //-   input(placeholder="add new start" v-model="newRoute.from")
@@ -11,11 +11,12 @@ div
   //-   input(type="checkbox" id="checkbox" v-model="newRoute.onway") 
   //-   p Back and forth?
   //-   button(type="submit") saves
-  hr
-  h1 Station watchers
-  template(v-for="station in activeStationWatchers")
-    p {{station.name}}
-    button(@click="deleteStation(station.id)") delete
+  h1.mt-5.font-bold Stations
+  table
+  tr(v-for="station in activeStationWatchers")
+    td.mt-5 {{station.name}}
+    td
+      button.m-1(@click="deleteStation(station.id)") Delete
   //- hr
   //- h1 Route Watchers
   //- template(v-for="route in activeRoutes")
