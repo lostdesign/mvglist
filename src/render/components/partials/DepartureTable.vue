@@ -18,7 +18,7 @@ export default {
   data(){
     return {
       departures:[],
-      limitationList: 10,
+      limitationList: 20,
       lastUpdate: ''
     }
   },
