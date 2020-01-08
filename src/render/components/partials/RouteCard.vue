@@ -2,13 +2,19 @@
   .route__item
     .route-header
       h1.inline-block.font-bold.uppercase {{from}} ⟷&nbsp;
-      h1.inline-block.font-bold.uppercase {{to}}
+      h1.inline-block.font-bold.uppercase {{to}} 
     template(v-for="(r, index) in route")
-      ul
+      div.mb-1
         template(v-for="connection in r.connectionPartList")
-          li(v-if="connection.destination") {{connection.departure | formatTime}} {{connection.label}} {{connection.from.name}}  {{connection.departurePlatform}}
-        li
-          time {{r.arrival | formatTime }}  {{to}}
+          div.text-xs.inline-block.px-1.border.border-gray-900(v-if="connection.destination") {{connection.departure | formatTime}} → {{r.arrival | formatTime }}
+          div.text-xs.inline-block.ml-1.px-1(:class="connection.label") {{connection.label}}
+          //- .flex
+          //-   .flex
+          //-     div.text-xs Abfahrt
+          //-     div.text-xs.inline-block.ml-1.px-1.border.border-gray-900 {{connection.departurePlatform}} 
+          //-   .flex
+          //-     div.text-xs Ankunft
+          //-     div.text-xs.inline-block.ml-1.px-1.border.border-gray-900 {{ connection.arrivalPlatform}}
 </template>
 
 <script>

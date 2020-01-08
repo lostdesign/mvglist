@@ -48,7 +48,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .S1 { @apply bg-blue-500 text-white; }
 .S2 { @apply bg-green-400 text-white; }
 .S20 { @apply bg-red-400 text-white; }
