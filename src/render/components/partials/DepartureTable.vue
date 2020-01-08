@@ -1,152 +1,70 @@
 <template lang="pug">
 .departure.mr-10
-  h1.font-bold.uppercase {{station.name}}
-  
-  input.text-xs(type="checkbox" v-model="activeTypes.u")
-  span.text-xs &nbsp;U&nbsp;
-  input.text-xs(type="checkbox" v-model="activeTypes.s")
-  span.text-xs &nbsp;S&nbsp;
-  input.text-xs(type="checkbox" v-model="activeTypes.b")
-  span.text-xs &nbsp;B&nbsp;
-  input.text-xs(type="checkbox" v-model="activeTypes.t")
-  span.text-xs &nbsp;T&nbsp;
-  span.text-xs.border.border-gray-900.cursor-pointer(@click="this.getNewStationDeparture") Refresh
-
+  h1.inline-block.font-bold.uppercase {{station.name}}
+  button(@click.prevent="getStationDeparture") ↻
+  small Last Update {{ lastUpdate | formatTime}}
   template(v-for="(d, index) in departures" v-if="departures && departures.length > 0 && index <= limitationList")
-    div.flex
-      div.flex(style="min-width:5rem;")
-        span.text-sm.time {{ d.lineDepartureIn }}
-        span.text-sm.line(:class="d.lineType+d.lineNumber") {{ d.lineType | convertLineType }}{{ d.lineNumber }}
-      span.station {{ d.lineDestination }}
+    div.flex.justify-start.flex-1.min-w-full.text-center(style="flex: 1 1 0")
+      span.px-1.bg-gray-900.mb-1.text-white.text-sm(style="flex: 0 1 10%") {{d.time | formatTime}}
+      span.px-1.border.mb-1.border-gray-900.text-xs(style="flex: 0 1 20%") {{d.time | calcTime}} min
+      span.flex-initial.px-1.ml-1.mb-1.text-sm(:class="[d.label, d.product]" style="flex: 0 1 10%") {{d.label}}
+      span.flex-initial.mb-1.px-1.text-sm.flex-no-wrap.text-left(style="flex: 0 1 60%; text-overflow: clip; white-space: nowrap; overflow:hidden;") {{d.destination}}
 </template>
 
 <script>
 const mvg = require('mvg-node');
-const mvgApi = require('@lynbarry/mvg-api');
 
 export default {
   data(){
     return {
       departures:[],
-      limitationList: 20,
-      activeTypes: {
-        u: true,
-        s: true,
-        b: false,
-        t: false
-      },
-      types: []
+      limitationList: 10,
+      lastUpdate: ''
     }
   },
   props: [
     'station'
   ],
-  computed: {
-    getTypes() {
-      let arr=[];
-      for (let i in this.activeTypes) {
-        this.activeTypes[i] === true ? arr.push(i) : '';
-      }
-      return arr;
+  methods: {
+    async getStationDeparture(){
+      let home = await mvg.getStation(this.station.name).catch((err)=>{console.log(err)});
+
+      let departures =
+        await mvg.getDepartures(home)
+        .then(res => {
+          this.departures = res;
+          console.log(res)
+        });
+      this.lastUpdate = Date.now();
+      console.log('UPDATED ↻')
     }
   },
-  methods: {
-    async getNewStationDeparture(){
-      mvgApi.getDepartures(this.station.name, this.getTypes).then(lines => {
-        this.departures = lines;
-      });
-    },
-    // DEPRECATED; API OF MVG-NODE BROKE @17.10.2019
-    // async getStationDepature(){
-    //   let home = await mvg.getStation(this.station.name).catch((err)=>{console.log(err)});
-
-    //   let departures =
-    //     await mvg.getDepartures(home)
-    //     .then(res => {
-    //       this.departures = res;
-    //     });
-    // }
-  },
   created() {
-    this.getNewStationDeparture();
+    this.getStationDeparture();
   },
   mounted(){
-    setInterval(() => this.getNewStationDeparture('interval'), 60 * 1000)
+    setInterval(() => this.getStationDeparture('interval'), 60 * 1000)
   }
 }
 </script>
 
 <style scoped>
-.line, .time, .station {
-  @apply flex justify-center items-center  mb-1;
-}
+.S1 { @apply bg-blue-500 text-white; }
+.S2 { @apply bg-green-400 text-white; }
+.S20 { @apply bg-red-400 text-white; }
+.S3 { @apply bg-purple-700 text-white;}
+.S4 { @apply bg-red-700 text-white; }
+.S6 { @apply bg-green-700 text-white; }
+.S7 { @apply bg-red-800 text-white; }
+.S8 { @apply bg-gray-900 text-yellow-500; }
 
-.time {
-  border-radius: 0.5rem 0 0 0.5rem;
-}
+.U1, .U7 { @apply bg-green-800 text-white; }
+.U2 { @apply bg-red-800 text-white; }
+.U3. .U8 { @apply bg-orange-500 text-white; }
+.U4 { @apply bg-green-400 text-white; }
+.U5 { @apply bg-yellow-700 text-white; }
+.U6 { @apply bg-blue-600 text-white; }
 
-.line {
-  border-radius: 0 0.5rem 0.5rem 0;
-  width: 100%;
-  @apply mr-1;
-}
-
-.line, .time {
-  @apply py-0 px-2;
-}
-
-
-
-.s1 {
-  @apply bg-blue-500 text-white;
-}
-
-.s2 {
-  @apply bg-green-400 text-white;
-}
-
-.s20 {
-  @apply bg-red-400 text-white;
-}
-
-.s3 {
-  @apply bg-purple-700 text-white;
-}
-
-.s4 {
-  @apply bg-red-700 text-white;
-}
-
-
-.s6 {
-  @apply bg-green-700 text-white;
-}
-
-.s7 {
-  @apply bg-red-800 text-white;
-}
-
-.s8 {
-  @apply bg-gray-900 text-yellow-500;
-}
-
-.u5 {
-  @apply bg-yellow-700 text-white;
-}
-
-.u4 {
-  @apply bg-green-400 text-white;
-}
-
-span[class*="text-sm line b"] {
-  @apply bg-blue-800 text-white;
-}
-
-span[class^="text-sm line t"] {
-  @apply bg-red-600 text-white;
-}
-
-span[class*="time"] {
-  @apply bg-gray-900 text-white;
-}
+.BUS, .REGIONAL_BUS { @apply bg-blue-800 text-white; }
+.TRAM { @apply bg-red-600 text-white; }
 </style>

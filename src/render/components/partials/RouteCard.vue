@@ -1,8 +1,8 @@
 <template lang="pug">
   .route__item
     .route-header
-      small {{from}}
-      small {{to}}
+      h1.inline-block.font-bold.uppercase {{from}} ⟷&nbsp;
+      h1.inline-block.font-bold.uppercase {{to}}
     template(v-for="(r, index) in route")
       ul
         template(v-for="connection in r.connectionPartList")
